@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Choose Field</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<script src="js/state.js"></script>
+<script src="js/onboarding.js"></script>
+
+<body>
+
+    <header class="username-header">
+        <nav>
+            <a href="username.html" class="back-btn">← Back</a>
+        </nav>
+    </header>
+
+    <main class="username-wrapper">
+
+        <article class="username-card">
+
+            <section class="username-title">
+                <h1 style="color:#facc15">What's your focus?</h1>
+                <p>Select your primary development path</p>
+            </section>
+
+            <section class="field-options">
+                <form action="tasks.html">
+
+                    <label class="field-card">
+                        <input type="radio" name="field" required>
+                        <div>
+                            <h3>Frontend</h3>
+                            <p>React, Vue, UI/UX</p>
+                        </div>
+                    </label>
+
+                    <label class="field-card">
+                        <input type="radio" name="field">
+                        <div>
+                            <h3>Backend</h3>
+                            <p>Node, Python, APIs</p>
+                        </div>
+                    </label>
+
+                    <label class="field-card">
+                        <input type="radio" name="field">
+                        <div>
+                            <h3>Full Stack</h3>
+                            <p>Both frontend & backend</p>
+                        </div>
+                    </label>
+
+                    <label class="field-card">
+                        <input type="radio" name="field">
+                        <div>
+                            <h3>Java Developer</h3>
+                            <p>Spring, Enterprise</p>
+                        </div>
+                    </label>
+
+                    <button type="submit" formaction="tasks.html"
+                        style="background-color:#facc15;color:#000;padding:0.8rem 1.8rem;font-size:1.05rem;border:none;border-radius:0.5rem;cursor:pointer;">
+                        Continue →
+                    </button>
+
+                </form>
+            </section>
+
+        </article>
+
+        <aside class="step-indicator">
+            Step 2
+        </aside>
+
+    </main>
+
+    <footer></footer>
+
+</body>
+
+</html>

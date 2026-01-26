@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DSA Practice | Path2Place</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Consolas, monospace;
+        }
+
+        body {
+            background: #0b0b0b;
+            color: #e5e5e5;
+            height: 100vh;
+        }
+
+        /* Layout */
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* LEFT PANEL */
+        .problem {
+            width: 45%;
+            padding: 30px;
+            overflow-y: auto;
+            border-right: 1px solid #222;
+        }
+
+        .problem h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .problem p {
+            color: #bbb;
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .section-title {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #facc15;
+        }
+
+        .code-block {
+            background: #111;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        /* RIGHT PANEL */
+        .editor {
+            width: 55%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-header {
+            padding: 12px 16px;
+            background: #111;
+            border-bottom: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        select,
+        button {
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #333;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button.run {
+            background: #facc15;
+            color: #000;
+            font-weight: bold;
+        }
+
+        textarea {
+            flex: 1;
+            background: #0f0f0f;
+            color: #e5e5e5;
+            border: none;
+            padding: 20px;
+            font-size: 15px;
+            outline: none;
+            resize: none;
+        }
+
+        /* OUTPUT */
+        .output {
+            background: #080808;
+            border-top: 1px solid #222;
+            padding: 12px;
+            font-size: 14px;
+            height: 120px;
+            overflow-y: auto;
+            color: #9fef00;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- LEFT: PROBLEM STATEMENT -->
+        <section class="problem">
+
+            <h1>Check if an Array is Sorted</h1>
+
+            <p>
+                Given an array of integers, determine whether the array is sorted
+                in non-decreasing order.
+            </p>
+
+            <div class="section-title">Example 1</div>
+            <div class="code-block">
+                Input: [1, 2, 3, 4, 5]<br>
+                Output: true
+            </div>
+
+            <div class="section-title">Example 2</div>
+            <div class="code-block">
+                Input: [1, 3, 2, 4]<br>
+                Output: false
+            </div>
+
+            <div class="section-title">Constraints</div>
+            <div class="code-block">
+                1 ≤ n ≤ 10⁵<br>
+                -10⁹ ≤ arr[i] ≤ 10⁹
+            </div>
+
+            <div class="section-title">Hint</div>
+            <p>
+                Compare each element with the previous one.
+                If you ever find a smaller value after a larger one,
+                the array is not sorted.
+            </p>
+
+        </section>
+
+        <!-- RIGHT: CODE EDITOR -->
+        <section class="editor">
+
+            <div class="editor-header">
+                <select id="language">
+                    <option>JavaScript</option>
+                    <option>Python</option>
+                    <option>Java</option>
+                    <option>C++</option>
+                </select>
+
+                <div>
+                    <button class="run" onclick="runCode()">Run</button>
+                    <button onclick="submitCode()">Submit</button>
+                </div>
+            </div>
+
+            <textarea id="code">
+function isSorted(arr) {
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] < arr[i - 1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+console.log(isSorted([1,2,3,4]));
+        </textarea>
+
+            <div class="output" id="output">
+                ▶ Output will appear here...
+            </div>
+
+        </section>
+
+    </div>
+
+    <script>
+        function runCode() {
+            const output = document.getElementById("output");
+            output.innerHTML = "";
+
+            try {
+                const logs = [];
+                const originalLog = console.log;
+
+                console.log = function (msg) {
+                    logs.push(msg);
+                };
+
+                eval(document.getElementById("code").value);
+
+                console.log = originalLog;
+
+                output.innerHTML = logs.length
+                    ? logs.join("<br>")
+                    : "✓ Code executed successfully";
+            } catch (err) {
+                output.innerHTML = "❌ Error: " + err.message;
+            }
+        }
+
+        function submitCode() {
+            document.getElementById("output").innerHTML =
+                "✅ Code submitted successfully (simulation)";
+        }
+    </script>
+
+</body>
+
+</html>

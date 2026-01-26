@@ -1,0 +1,416 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, Arial, sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #fff;
+}
+
+ 
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+ HEADER 
+.login-header {
+    padding: 24px 48px;
+}
+
+.back-link {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.brand h2 span {
+    color: #facc15;
+}
+
+.brand small {
+    color: #888;
+    font-size: 13px;
+}
+
+ CENTERING 
+.login-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ LOGIN CARD 
+.login-card {
+    width: 420px;
+    background: linear-gradient(180deg, #151515, #0f0f0f);
+    padding: 32px;
+    border-radius: 22px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+}
+
+ TITLE 
+.login-title h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.login-title p {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 24px;
+}
+
+ 
+.google-btn {
+    width: 100%;
+    padding: 14px;
+    background: #121212;
+    border: 1px solid #222;
+    border-radius: 14px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.google-btn .g {
+    color: #4285F4;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+DIVIDER 
+.divider {
+    text-align: center;
+    margin: 18px 0;
+    color: #666;
+    font-size: 13px;
+}
+
+ FORM
+.login-form label {
+    font-size: 13px;
+    color: #bbb;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0 16px;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 12px;
+    color: white;
+}
+
+ PRIMARY BUTTON 
+.primary-btn {
+    width: 100%;
+    padding: 16px;
+    background: #facc15;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+ FOOTER 
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: #facc15;
+    text-decoration: none;
+}
+.login-footer a:hover {
+    text-decoration: underline;
+}
+
+/* HEADER */
+.username-header {
+    padding: 24px 48px;
+}
+
+.back-btn {
+    color: #9a9a9a;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    color: #facc15;
+}
+
+/* PAGE CENTERING */
+.username-wrapper {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* CARD */
+.username-card {
+    width: 440px;
+    background: linear-gradient(180deg, #151515, #0f0f0f);
+    border-radius: 22px;
+    padding: 32px;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+}
+
+/* TITLE */
+.username-title h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.username-title p {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 24px;
+}
+
+/* FORM */
+.username-form input {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+    background: #1a1a1a;
+    color: white;
+    font-size: 14px;
+}
+
+.username-form small {
+    display: block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #777;
+}
+
+/* BUTTON */
+.username-form button {
+    width: 100%;
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 30px;
+    background: #facc15;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* STEP */
+.step-indicator {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #777;
+}
+/* FIELD OPTIONS */
+.field-options form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.field-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px;
+    border-radius: 14px;
+    background: #141414;
+    cursor: pointer;
+    border: 1px solid #1f1f1f;
+}
+
+.field-card:hover {
+    border-color: #333;
+}
+
+.field-card input {
+    accent-color: #facc15;
+    transform: scale(1.1);
+}
+
+.field-card h3 {
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.field-card p {
+    font-size: 13px;
+    color: #aaa;
+}
+
+/* BUTTON ALIGNMENT */
+.field-options button {
+    margin-top: 20px;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, Arial, sans-serif;
+}
+
+body {
+    background-color: #0b0b0b;
+    color: #fff;
+}
+
+/* GRID BACKGROUND */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+/* HEADER */
+.login-header {
+    padding: 24px 48px;
+}
+
+.back-link {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.brand h2 span {
+    color: #facc15;
+}
+
+.brand small {
+    color: #888;
+    font-size: 13px;
+}
+
+/* CENTERING */
+.login-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* LOGIN CARD */
+.login-card {
+    width: 420px;
+    background: linear-gradient(180deg, #151515, #0f0f0f);
+    padding: 32px;
+    border-radius: 22px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+}
+
+/* TITLE */
+.login-title h1 {
+    font-size: 26px;
+    margin-bottom: 6px;
+}
+
+.login-title p {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 24px;
+}
+
+/* GOOGLE BUTTON */
+.google-btn {
+    width: 100%;
+    padding: 14px;
+    background: #121212;
+    border: 1px solid #222;
+    border-radius: 14px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.google-btn .g {
+    color: #4285F4;
+    font-weight: bold;
+    margin-right: 8px;
+}
+
+/* DIVIDER */
+.divider {
+    text-align: center;
+    margin: 18px 0;
+    color: #666;
+    font-size: 13px;
+}
+
+/* FORM */
+.login-form label {
+    font-size: 13px;
+    color: #bbb;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0 16px;
+    background: #1a1a1a;
+    border: none;
+    border-radius: 12px;
+    color: white;
+}
+
+/* PRIMARY BUTTON */
+.primary-btn {
+    width: 100%;
+    padding: 16px;
+    background: #facc15;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* FOOTER */
+.login-footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.login-footer a {
+    color: #facc15;
+    text-decoration: none;
+}
