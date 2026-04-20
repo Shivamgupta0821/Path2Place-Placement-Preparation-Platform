@@ -29,23 +29,29 @@ export function Layout() {
     }
 
     // Redirect authenticated users away from auth pages
+    // if (isAuthPage && isAuthenticated) {
+    //   // If onboarding incomplete, stay on signup
+    //   if (!user?.onboarded && location.pathname !== "/signup") {
+    //     navigate("/signup", { replace: true });
+    //     return;
+    //   }
+    //   // If onboarding complete, go to dashboard
+    //   if (user?.onboarded) {
+    //     navigate("/dashboard", { replace: true });
+    //     return;
+    //   }
+    // }
     if (isAuthPage && isAuthenticated) {
-      // If onboarding incomplete, stay on signup
-      if (!user?.onboarding_complete && location.pathname !== "/signup") {
-        navigate("/signup", { replace: true });
-        return;
-      }
-      // If onboarding complete, go to dashboard
-      if (user?.onboarding_complete) {
-        navigate("/dashboard", { replace: true });
-        return;
-      }
-    }
+  if (user?.onboarded) {
+    navigate("/dashboard", { replace: true });
+    return;
+  }
+}
 
     // Authenticated but onboarding not done → force to signup
-    if (isAuthenticated && !user?.onboarding_complete && !AUTH_ROUTES.includes(location.pathname)) {
-      navigate("/signup", { replace: true });
-    }
+    // if (isAuthenticated && !user?.onboarded && !AUTH_ROUTES.includes(location.pathname)) {
+    //   navigate("/signup", { replace: true });
+    // }
   }, [isLoading, isAuthenticated, isProtected, isAuthPage, user, location.pathname]);
 
   // Full-screen loading spinner while checking session

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";;
+import { motion } from "framer-motion";
 import {
   ArrowRight,
   UserPlus,
@@ -77,9 +77,9 @@ export function Landing() {
   const { isAuthenticated, user } = useAuth();
 
   const handleStart = () => {
-    if (isAuthenticated && user?.onboarding_complete) {
+    if (isAuthenticated && user?.onboarded) {
       navigate("/dashboard");
-    } else if (isAuthenticated && !user?.onboarding_complete) {
+    } else if (isAuthenticated && !user?.onboarded) {
       navigate("/signup");
     } else {
       navigate("/signup");
@@ -87,7 +87,7 @@ export function Landing() {
   };
 
   const handleSignIn = () => {
-    if (isAuthenticated && user?.onboarding_complete) {
+    if (isAuthenticated && user?.onboarded) {
       navigate("/dashboard");
     } else {
       navigate("/signin");

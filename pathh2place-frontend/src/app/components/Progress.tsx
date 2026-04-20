@@ -2,8 +2,17 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Flame, Trophy, Calendar, Target, Loader2, AlertCircle } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { apiGetProgress, type ProgressData } from "../lib/mockApi";
 
+type ProgressData = {
+  tasks_completed: number;
+  total_tasks: number;
+  current_streak: number;
+  best_streak: number;
+  overall_completion: number;
+  rank: number | null;
+  heatmap: { date: string; level: number }[];
+  topics: { name: string; progress: number; color: string }[];
+};
 // ── Heatmap colours ───────────────────────────────────────────────────────────
 
 const heatmapColors: Record<number, string> = {
@@ -49,8 +58,22 @@ export function Progress() {
     if (!user) return;
     setIsLoading(true);
     setError("");
-    apiGetProgress(user.id)
-      .then(setData)
+    fetch("http://127.0.0.1:8000/api/progress", {
+  headers: {
+    "Authorization": `Bearer ${localStorage.getItem("p2p_token")}`
+  }
+})
+  .then((res) => {
+    if (!res.ok) throw new Error("Unauthorized");
+    return res.json();
+  })
+ .then((data) =>
+  setData({
+    ...data,
+    heatmap: data.heatmap || [],
+    topics: data.topics || [],
+  })
+)
       .catch(() => setError("Failed to load progress data."))
       .finally(() => setIsLoading(false));
   }, [user]);
@@ -72,19 +95,19 @@ export function Progress() {
         {
           icon: Trophy,
           label: "Best Streak",
-          value: String(data.best_streak),
+          value: String(data.best_streak ?? 0),
           sub: "days",
         },
         {
           icon: Calendar,
           label: "Day Rank",
-          value: data.rank !== null ? `#${data.rank}` : "—",
+          value: data.rank !== null && data.rank !== undefined ? `#${data.rank}` : "—",
           sub: data.rank !== null ? "leaderboard" : "not ranked yet",
         },
       ]
     : [];
 
-  const hasActivity = data?.heatmap.some((d) => d.level > 0) ?? false;
+  const hasActivity = data?.heatmap?.some((d) => d.level > 0) ?? false;
 
   return (
     <div className="min-h-screen bg-[#0B0B0B] pb-24">
@@ -219,13 +242,13 @@ export function Progress() {
             </div>
             <p className="mb-6 text-[13px] text-[#555]">Based on your focus area and completed tasks</p>
 
-            {data.topics.every((t) => t.progress === 0) ? (
+            {data.topics?.every((t) => t.progress === 0) ? (
               <div className="py-6 text-center text-[14px] text-[#555]">
                 Topics progress will appear after you complete tasks
               </div>
             ) : (
               <div className="space-y-5">
-                {data.topics.map((topic, i) => (
+                {data.topics?.map((topic, i) => (
                   <div key={topic.name}>
                     <div className="mb-2 flex items-center justify-between">
                       <span className="text-[14px] text-[#AAAAAA]">{topic.name}</span>

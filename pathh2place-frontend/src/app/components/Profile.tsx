@@ -31,7 +31,7 @@ function StatCard({
 }: {
   icon: React.ElementType;
   label: string;
-  value: string | number;
+  value: string | number | null;
 }) {
   return (
     <div className="rounded-2xl border border-[#262626] bg-[#111111] p-5">
@@ -53,7 +53,7 @@ function PrefRow({
 }: {
   icon: React.ElementType;
   label: string;
-  value: string | null;
+  value: string | number | null;
 }) {
   return (
     <div className="flex items-center justify-between">
@@ -88,8 +88,7 @@ export function Profile() {
     );
   }
 
-  const avatarInitials = getAvatarInitials(user.username, user.email);
-
+const avatarInitials = getAvatarInitials(user.username ?? "", user.email);
   const handleLogout = () => {
     logout();
     navigate("/signin");
@@ -141,10 +140,10 @@ export function Profile() {
           transition={{ delay: 0.1 }}
           className="mb-6 grid grid-cols-2 gap-3"
         >
-          <StatCard icon={Calendar} label="Days Active" value={user.days_active} />
+          <StatCard icon={Calendar} label="Days Active" value={user.days_active ?? 0} />
           <StatCard icon={Flame} label="Current Streak" value={user.current_streak} />
-          <StatCard icon={Trophy} label="Best Streak" value={user.best_streak} />
-          <StatCard icon={CheckCircle2} label="Tasks Solved" value={user.tasks_completed} />
+          <StatCard icon={Trophy} label="Best Streak" value={user.best_streak ?? 0} />
+          <StatCard icon={CheckCircle2} label="Tasks Solved" value={user.tasks_completed ?? 0} />
         </motion.div>
 
         {/* Preferences */}
@@ -158,21 +157,24 @@ export function Profile() {
             <h3 className="text-[16px] text-white" style={{ fontWeight: 600 }}>
               Preferences
             </h3>
-            {!user.onboarding_complete && (
+            {!user.onboarded && (
               <span className="rounded-full bg-[#FACC15]/10 px-3 py-0.5 text-[11px] text-[#FACC15]">
                 Complete onboarding
               </span>
             )}
           </div>
           <div className="space-y-4">
-            <PrefRow icon={Target} label="Focus Area" value={user.focus_area} />
-            <PrefRow icon={Briefcase} label="Experience" value={user.experience_level} />
-            <PrefRow icon={Trophy} label="Target Companies" value={user.target_companies} />
-            <PrefRow icon={Clock} label="Daily Commitment" value={user.daily_commitment} />
+            <PrefRow icon={Target} label="Focus Area" value={user.focus_area ?? null} />
+            <PrefRow icon={Briefcase} label="Experience" value={user.experience ?? null} />
+            <PrefRow icon={Trophy} label="Target Companies" value={user.target_companies ?? null} />
+            <PrefRow
+              icon={Clock}
+                label="Daily Commitment"
+                value={user.daily_time ? `${user.daily_time} mins` : null}/>
             <PrefRow
               icon={Calendar}
               label="Prep Duration"
-              value={user.prep_days ? `${user.prep_days} days` : null}
+              value={user.prep_duration ? `${user.prep_duration} days` : null}
             />
           </div>
         </motion.div>
@@ -201,7 +203,7 @@ export function Profile() {
                 <span className="text-[14px] text-[#AAAAAA]">Joined</span>
               </div>
               <span className="text-[14px] text-white" style={{ fontWeight: 500 }}>
-                {new Date(user.created_at).toLocaleDateString("en-IN", {
+                {new Date(user.created_at ?? "").toLocaleDateString("en-IN", {
                   day: "numeric",
                   month: "short",
                   year: "numeric",

@@ -4,17 +4,18 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { User, Target, ArrowRight, Check, ArrowLeft } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
-import { apiCompleteOnboarding } from "../../lib/mockApi";
+
 
 // ── Types 
 
 type OnboardingData = {
   username: string;
+  role: string;
   focus_area: string;
-  experience_level: string;
+  experience: string;
   target_companies: string;
-  daily_commitment: string;
-  prep_days: number;
+  daily_time: number;
+  prep_duration: number;
 };
 
 // ── Shared styles ─────────────────────────────────────────────────────────────
@@ -107,11 +108,12 @@ export function SignUp() {
 
   const [data, setData] = useState<OnboardingData>({
     username: "",
+    role: "",
     focus_area: "",
-    experience_level: "",
+    experience: "",
     target_companies: "",
-    daily_commitment: "",
-    prep_days: 0,
+    daily_time: 0,
+    prep_duration: 0,
   });
   const [usernameError, setUsernameError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -142,41 +144,108 @@ export function SignUp() {
 
   const next = () => setStep((s) => Math.min(s + 1, TOTAL_STEPS));
 
-  const handleContinue = async () => {
-    if (step === 1) {
-      const err = validateUsername(data.username);
-      if (err) { setUsernameError(err); return; }
-      setUsernameError("");
+//   const handleContinue = async () => {
+//   const userId = localStorage.getItem("p2p_user_id");
+//   const token = localStorage.getItem("p2p_token");
+
+//   if (!userId || !token) return;
+
+//   setIsSubmitting(true);
+
+//   try {
+//     const res = await fetch("http://127.0.0.1:8000/api/onboarding", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${token}`
+//       },
+//       body: JSON.stringify({
+//         role: data.role, // "frontend"
+//         experience: data.experience, // FIX
+//         target_companies: data.target_companies, // FIX
+//         daily_time: Number(data.daily_time), // FIX
+//         prep_duration: Number(data.prep_duration) // FIX name mapping
+//       })
+//     });
+
+//     if (!res.ok) {
+//       const err = await res.json();
+//       console.log("❌ Onboarding error:", err);
+//       throw new Error("Onboarding failed");
+//     }
+
+//     const result = await res.json();
+
+//     console.log("✅ Success:", result);
+
+//     navigate("/dashboard");
+
+//   } catch (err) {
+//     console.error(err);
+//   } finally {
+//     setIsSubmitting(false);
+//   }
+// };
+const handleContinue = async () => {
+  // 🟢 Step navigation
+  if (step < 6) {
+    setStep(step + 1);
+    return;
+  }
+
+  // 🔴 FINAL STEP → call backend
+  setIsSubmitting(true);
+
+  try {
+    const token = localStorage.getItem("p2p_token");
+
+    // ✅ FIXED PAYLOAD (IMPORTANT)
+    const payload = {
+      username: data.username,
+      role: data.focus_area,
+      experience: data.experience, // must be lowercase (beginner etc.)
+      target_companies: data.target_companies, // service/product/both
+      daily_time: Number(data.daily_time), // 30/60/90
+      prep_duration: Number(data.prep_duration), // 15/30/45
+      focus_area: data.focus_area || "dsa" // fallback (IMPORTANT FIX)
+    };
+
+    console.log("🔥 FINAL PAYLOAD:", payload); // DEBUG
+
+    const res = await fetch("http://127.0.0.1:8000/api/onboarding", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(payload) // ✅ SEND CLEAN DATA
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.log("❌ Onboarding error:", err);
+      throw new Error("Onboarding failed");
     }
-    if (step < TOTAL_STEPS) {
-      next();
-      return;
-    }
-    // Final step — submit onboarding
-    const userId = localStorage.getItem("p2p_user_id");
-    if (!userId) return;
-    setIsSubmitting(true);
-    try {
-      const updatedUser = await apiCompleteOnboarding(userId, {
-        ...data,
-        prep_days: data.prep_days,
-      });
-      updateUser(updatedUser);
-      navigate("/dashboard");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+
+    const result = await res.json();
+    console.log("✅ Onboarding success:", result);
+
+    navigate("/dashboard");
+
+  } catch (err) {
+    console.error("❌ Error:", err);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const canContinue = () => {
     if (step === 1) return data.username.length >= 3;
     if (step === 2) return !!data.focus_area;
-    if (step === 3) return !!data.experience_level;
+    if (step === 3) return !!data.experience;
     if (step === 4) return !!data.target_companies;
-    if (step === 5) return !!data.daily_commitment;
-    if (step === 6) return data.prep_days > 0;
+    if (step === 5) return !!data.daily_time;
+    if (step === 6) return data.prep_duration > 0;
     return true;
   };
 
@@ -203,8 +272,8 @@ export function SignUp() {
                   🎯
                 </div>
                 <span className="text-[20px] tracking-tight">
-                  <span className="text-[#FACC15]" style={{ fontWeight: 700 }}>Placed.</span>
-                  <span className="ml-1.5 text-[14px] text-[#AAAAAA]">by codvyn</span>
+                  <span className="text-[#FACC15]" style={{ fontWeight: 700 }}>Path2Place.</span>
+                  <span className="ml-1.5 text-[14px] text-[#AAAAAA]">by Shivam</span>
                 </span>
               </div>
             </div>
@@ -349,17 +418,17 @@ export function SignUp() {
 
               <div className="space-y-3">
                 {[
-                  { label: "Frontend", sub: "React, Vue, UI/UX" },
-                  { label: "Backend", sub: "Node, Python, APIs" },
-                  { label: "Full-Stack", sub: "Both ends" },
-                  { label: "Java Dev", sub: "Spring, Enterprise" },
+                  { label: "Frontend", sub: "React, Vue, UI/UX", value: "frontend" },
+                  { label: "Backend", sub: "Node, Python, APIs", value: "backend" },
+                  { label: "Full-Stack", sub: "Both ends", value: "fullstack" },
+                  { label: "Java Dev", sub: "Spring, Enterprise", value: "java" },
                 ].map((opt) => (
                   <OptionBtn
                     key={opt.label}
                     label={opt.label}
                     sub={opt.sub}
-                    selected={data.focus_area === opt.label}
-                    onClick={() => setData({ ...data, focus_area: opt.label })}
+                    selected={data.focus_area === opt.value}
+                    onClick={() => setData({ ...data, focus_area: opt.value })}
                   />
                 ))}
               </div>
@@ -402,16 +471,16 @@ export function SignUp() {
 
               <div className="space-y-3">
                 {[
-                  { label: "Beginner", sub: "Just starting out — 0–6 months" },
-                  { label: "Intermediate", sub: "Some experience — 6–18 months" },
-                  { label: "Placement Ready", sub: "Final push — interviews imminent" },
+                  { label: "Beginner", sub: "Just starting out — 0–6 months", value: "beginner" },
+                  { label: "Intermediate", sub: "Some experience — 6–18 months", value: "intermediate" },
+                  { label: "Placement Ready", sub: "Final push — interviews imminent", value: "placement_ready" },
                 ].map((opt) => (
                   <OptionBtn
                     key={opt.label}
                     label={opt.label}
                     sub={opt.sub}
-                    selected={data.experience_level === opt.label}
-                    onClick={() => setData({ ...data, experience_level: opt.label })}
+                    selected={data.experience === opt.value}
+                    onClick={() => setData({ ...data, experience: opt.value })}
                   />
                 ))}
               </div>
@@ -454,16 +523,16 @@ export function SignUp() {
 
               <div className="space-y-3">
                 {[
-                  { label: "Service", sub: "TCS, Infosys, Wipro, Cognizant" },
-                  { label: "Product", sub: "Google, Amazon, Atlassian, Zoho" },
-                  { label: "Both", sub: "Covering all bases" },
+                  { label: "Service", sub: "TCS, Infosys, Wipro, Cognizant" ,value: "service"},
+                  { label: "Product", sub: "Google, Amazon, Atlassian, Zoho" ,value: "product"},
+                  { label: "Both", sub: "Covering all bases" ,value: "both"},
                 ].map((opt) => (
                   <OptionBtn
                     key={opt.label}
                     label={opt.label}
                     sub={opt.sub}
-                    selected={data.target_companies === opt.label}
-                    onClick={() => setData({ ...data, target_companies: opt.label })}
+                    selected={data.target_companies === opt.value}
+                    onClick={() => setData({ ...data, target_companies: opt.value })}
                   />
                 ))}
               </div>
@@ -506,18 +575,18 @@ export function SignUp() {
 
               <div className="space-y-3">
                 {[
-                  { label: "30 min", sub: "Short but consistent" },
-                  { label: "60 min", sub: "Solid daily practice" },
-                  { label: "90 min", sub: "Serious grind mode" },
-                ].map((opt) => (
-                  <OptionBtn
-                    key={opt.label}
-                    label={opt.label}
-                    sub={opt.sub}
-                    selected={data.daily_commitment === opt.label}
-                    onClick={() => setData({ ...data, daily_commitment: opt.label })}
-                  />
-                ))}
+  { label: "30 min", sub: "Short but consistent", value: 30 },
+  { label: "60 min", sub: "Solid daily practice", value: 60 },
+  { label: "90 min", sub: "Serious grind mode", value: 90 },
+].map((opt) => (
+  <OptionBtn
+    key={opt.label}
+    label={opt.label}
+    sub={opt.sub}
+    selected={data.daily_time === opt.value}
+    onClick={() => setData({ ...data, daily_time: Number(opt.value) })}
+  />
+))}
               </div>
 
               <motion.button
@@ -566,8 +635,8 @@ export function SignUp() {
                     key={opt.label}
                     label={opt.label}
                     sub={opt.sub}
-                    selected={data.prep_days === opt.val}
-                    onClick={() => setData({ ...data, prep_days: opt.val })}
+                    selected={data.prep_duration === opt.val}
+                    onClick={() => setData({ ...data, prep_duration: opt.val })}
                   />
                 ))}
               </div>

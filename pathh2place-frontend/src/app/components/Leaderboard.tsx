@@ -2,7 +2,14 @@ import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Flame, Crown, AlertCircle, Trophy } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import { apiGetLeaderboard, type LeaderboardEntry } from "../lib/mockApi";
+type LeaderboardEntry = {
+  username: string;
+  points: number;
+  streak: number;
+  rank: number;
+  isCurrentUser: boolean;
+  avatar: string;
+};
 
 // ── Skeleton ──────────────────────────────────────────────────────────────────
 
@@ -50,8 +57,23 @@ export function Leaderboard() {
     if (!user) return;
     setIsLoading(true);
     setError("");
-    apiGetLeaderboard(user.id)
-      .then(setEntries)
+    fetch("http://127.0.0.1:8000/api/leaderboard", {
+  headers: {
+    "Authorization": `Bearer ${localStorage.getItem("p2p_token")}`
+  }
+})
+  .then((res) => res.json())
+  .then((data) => {
+    const formatted = data.map((u: any, index: number) => ({
+      username: u.name,
+      points: u.points,
+      streak: u.streak,
+      rank: index + 1,
+      isCurrentUser: u.name === user?.name,
+      avatar: u.name?.slice(0, 2).toUpperCase()
+    }));
+    setEntries(formatted);
+  })
       .catch(() => setError("Failed to load leaderboard."))
       .finally(() => setIsLoading(false));
   }, [user]);
