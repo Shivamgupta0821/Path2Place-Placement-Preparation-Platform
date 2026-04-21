@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-// import { apiLogin, apiSignup, apiGetProfile } from "../../lib/api";
 import { apiLogin, apiSignup, apiGetProfile } from "../lib/api";
 
 // Get API base URL — works in both dev and production
