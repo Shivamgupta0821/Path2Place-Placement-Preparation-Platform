@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { apiLogin, apiSignup, apiGetProfile } from "../../lib/api";
+// import { apiLogin, apiSignup, apiGetProfile } from "../../lib/api";
+import { apiLogin, apiSignup, apiGetProfile } from "../lib/api";
 
 // Get API base URL — works in both dev and production
 const API_BASE = (import.meta as any).env?.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api";
