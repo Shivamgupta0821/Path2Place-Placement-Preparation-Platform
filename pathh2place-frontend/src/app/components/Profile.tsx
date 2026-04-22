@@ -14,6 +14,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -75,7 +76,9 @@ function PrefRow({
 
 export function Profile() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  // const { user, logout } = useAuth();
+  const { user, logout, refreshUser } = useAuth();
+  useEffect(() => { refreshUser(); }, []);
 
   if (!user) {
     return (
