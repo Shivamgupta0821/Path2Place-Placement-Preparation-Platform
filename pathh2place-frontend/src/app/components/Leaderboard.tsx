@@ -67,9 +67,9 @@ export function Leaderboard() {
     const formatted = data.map((u: any, index: number) => ({
       username: u.name,
       points: u.points,
-      streak: u.streak,
+      streak: u.current_streak,
       rank: index + 1,
-      isCurrentUser: u.name === user?.name,
+      isCurrentUser: u.id === user?.id,
       avatar: u.name?.slice(0, 2).toUpperCase()
     }));
     setEntries(formatted);
