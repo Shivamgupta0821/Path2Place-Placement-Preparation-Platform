@@ -57,7 +57,7 @@ export function Leaderboard() {
     if (!user) return;
     setIsLoading(true);
     setError("");
-    fetch(`${(import.meta as any).env?.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api"}/leaderboard", {
+    fetch(`${(import.meta as any).env?.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api"}/leaderboard`, {
   headers: {
     "Authorization": `Bearer ${localStorage.getItem("p2p_token")}`
   }
