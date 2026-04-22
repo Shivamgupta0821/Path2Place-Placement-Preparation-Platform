@@ -153,7 +153,7 @@ export function SignUp() {
 //   setIsSubmitting(true);
 
 //   try {
-//     const res = await fetch("http://127.0.0.1:8000/api/onboarding", {
+//     const res = await fetch(`${(import.meta as any).env?.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api"}/onboarding`, {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -212,7 +212,7 @@ const handleContinue = async () => {
 
     console.log("🔥 FINAL PAYLOAD:", payload); // DEBUG
 
-    const res = await fetch("http://127.0.0.1:8000/api/onboarding", {
+    const res = await fetch(`${(import.meta as any).env?.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api"}/onboarding`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

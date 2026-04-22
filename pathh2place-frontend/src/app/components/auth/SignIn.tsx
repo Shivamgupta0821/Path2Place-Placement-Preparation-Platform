@@ -45,7 +45,7 @@ export function SignIn() {
 const googleLogin = useGoogleLogin({
   onSuccess: async (credentialResponse) => {
 
-    const res = await fetch("http://127.0.0.1:8000/api/auth/google", {
+    const res = await fetch(`${(import.meta as any).env?.VITE_API_BASE_URL ?? "http://127.0.0.1:8000/api"}/auth/google", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
