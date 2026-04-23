@@ -88,7 +88,7 @@ const googleLogin = useGoogleLogin({
             </div>
             <span className="text-[20px] tracking-tight">
               <span className="text-[#FACC15]" style={{ fontWeight: 700 }}>
-                Placed.
+                Path2Place.
               </span>
               <span className="ml-1.5 text-[14px] text-[#AAAAAA]" style={{ fontWeight: 400 }}>
                 by Shivam

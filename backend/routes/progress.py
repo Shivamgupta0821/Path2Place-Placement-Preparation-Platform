@@ -290,9 +290,16 @@ async def get_progress(request: Request, current_user: dict = Depends(get_curren
             pass
 
     # ── Streak ───────────────────────────────────────────────────────────────
+    # today        = datetime.now(timezone.utc).date()
+    # streak       = 0
+    # cur_date     = today
+    # while cur_date in completed_dates:
+    #     streak  += 1
+    #     cur_date -= timedelta(days=1)
     today        = datetime.now(timezone.utc).date()
     streak       = 0
-    cur_date     = today
+    # If today is not completed yet, start checking from yesterday
+    cur_date     = today if today in completed_dates else today - timedelta(days=1)
     while cur_date in completed_dates:
         streak  += 1
         cur_date -= timedelta(days=1)
