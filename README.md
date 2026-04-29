@@ -286,5 +286,5 @@ This project is licensed under the MIT License.
 
 <div align="center">
   <p>Built with ❤️ for placement preparation</p>
-  <p>⭐ Star this repo if you found it helpful!</p>
+  <p>⭐ Star this repo if you found it helpful! Do give your feedback and let me know if any erros occur</p>
 </div>
